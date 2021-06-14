@@ -1,24 +1,17 @@
-import React from 'react';
-import {
-  BrowserRouter as Router, Switch, Route,
-} from 'react-router-dom';
-import LoginPage from './pages/LoginPage.jsx';
-import NotFoundPage from './pages/NotFoundPage.jsx';
+import React, { useEffect, useState } from 'react';
 
-// const token = null;
+import MainComponent from './components/MainComponent.jsx';
+import { AuthContext } from './contexts';
 
-export default () => (
-  <Router>
-    <Switch>
-      <Route path="/" exact>
-        <LoginPage />
-      </Route>
-      <Route path="/login">
-        <LoginPage />
-      </Route>
-      <Route path="*">
-        <NotFoundPage />
-      </Route>
-    </Switch>
-  </Router>
-);
+export default () => {
+  const [token, setToken] = useState('');
+  useEffect(() => {
+    setToken(JSON.parse(localStorage.getItem('user')));
+  }, []);
+  const isAutheticated = !!token;
+  return (
+    <AuthContext.Provider value={{ isAutheticated }}>
+      <MainComponent />
+    </AuthContext.Provider>
+  );
+};
