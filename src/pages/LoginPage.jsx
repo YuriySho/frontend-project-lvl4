@@ -40,7 +40,6 @@ export default () => {
 
   useEffect(() => {
     redirectAuthorized();
-    // usernameRef.current.focus();
   }, [redirectAuthorized]);
 
   return (

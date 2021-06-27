@@ -1,8 +1,10 @@
 // @ts-check
 
 import _ from 'lodash';
+// @ts-ignore
 import HttpErrors from 'http-errors';
 
+// @ts-ignore
 const { Unauthorized, Conflict } = HttpErrors;
 
 const getNextId = () => Number(_.uniqueId());
