@@ -4,13 +4,12 @@ import axios from 'axios';
 
 import Channels from '../components/Channels.jsx';
 import Messages from '../components/Messages.jsx';
-import Navbar from '../components/Navbar.jsx';
 import routes from '../routes.js';
 import { setState } from '../slices/channelsInfoSlice.js';
-import { AuthContext } from '../contexts.js';
+import { Context } from '../contexts.js';
 
 export default () => {
-  const { token } = useContext(AuthContext);
+  const { token } = useContext(Context);
   const dispatch = useDispatch();
 
   const authorizationHeader = () => {
@@ -34,7 +33,6 @@ export default () => {
 
   return (
     <>
-      <Navbar />
       <div className="container flex-grow-1 my-4 rounded shadow bg-white">
         <div className="row h-100 ">
           <Channels />

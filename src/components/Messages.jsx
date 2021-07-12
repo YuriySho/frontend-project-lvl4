@@ -6,16 +6,18 @@ import InputForm from './InputForm.jsx';
 export default () => {
   const { channels, messages, currentChannelId } = useSelector((state) => state.channelsInfo);
 
-  const renderMessages = () => {
-    messages
-      .filter(({ channelId }) => (+channelId === currentChannelId))
-      .map(({ id, body, username }) => {
-        const message = `${username}: ${body}`;
-        return (
-          <div key={id}>{message}</div>
-        );
-      });
-  };
+  const renderMessages = () => (
+    <div id="message-box" className="chat-messages overflow-auto px-5 ">
+      {messages
+        .filter(({ channelId }) => channelId === currentChannelId)
+        .map(({ id, body, username }) => {
+          const message = `${username}: ${body}`;
+          return (
+            <div key={id}>{message}</div>
+          );
+        })}
+    </div>
+  );
 
   const renderCurrentChannel = () => {
     const currentChannel = channels.find(({ id }) => id === currentChannelId);
@@ -39,7 +41,7 @@ export default () => {
     <div className="col p-0 h-100">
       <div className="d-flex flex-column h-100">
         {renderCurrentChannel()}
-        <div id="message-box" className="chat-messages overflow-auto px-5 ">{renderMessages()}</div>
+        {renderMessages()}
         <InputForm />
       </div>
     </div>

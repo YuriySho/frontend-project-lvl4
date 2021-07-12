@@ -15,7 +15,7 @@ import * as yup from 'yup';
 import axios from 'axios';
 
 import routes from '../routes';
-import { AuthContext } from '../contexts';
+import { Context } from '../contexts';
 
 const loginSchema = yup.object().shape({
   username: yup.string()
@@ -26,16 +26,16 @@ const loginSchema = yup.object().shape({
 
 export default () => {
   const history = useHistory();
-  const { isAutheticated } = useContext(AuthContext);
+  const { logIn, isAuth } = useContext(Context);
   const [error, setError] = useState(null);
 
   const redirectAuthorized = useCallback(
     () => {
-      if (isAutheticated) {
+      if (isAuth) {
         history.replace('/');
       }
     },
-    [isAutheticated, history],
+    [isAuth, history],
   );
 
   useEffect(() => {
@@ -55,8 +55,8 @@ export default () => {
                   try {
                     const res = await axios.post(routes.loginPath(), { ...values });
                     setError(null);
-                    setSubmitting(false);
-                    localStorage.setItem('user', JSON.stringify(res.data));
+                    setSubmitting(true);
+                    logIn(res.data);
                     history.push('/');
                   } catch (e) {
                     setError('Incorrect username or password');
@@ -97,7 +97,13 @@ export default () => {
                         {error}
                       </div>
                     )}
-                    <button className="shadow bg-white rounded w-25 p-2 mb-3 align-self-center border" type="submit" disabled={isSubmitting}>Enter</button>
+                    <button
+                      className="shadow bg-white rounded w-25 p-2 mb-3 align-self-center border"
+                      type="submit"
+                      disabled={isSubmitting}
+                    >
+                      Enter
+                    </button>
                   </Form>
                 )}
               </Formik>

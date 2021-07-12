@@ -1,6 +1,6 @@
 /* eslint-disable import/prefer-default-export */
 import { createContext } from 'react';
 
-const AuthContext = createContext();
+const Context = createContext();
 
-export { AuthContext };
+export { Context };

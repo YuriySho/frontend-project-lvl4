@@ -17,9 +17,10 @@ export const channelsInfoSlice = createSlice({
       ...state,
       currentChannelId: id,
     }),
+    addMessage: (state, { payload: { message } }) => { state.messages.push(message); },
   },
 });
 
-export const { setState, setActiveChannel } = channelsInfoSlice.actions;
+export const { setState, setActiveChannel, addMessage } = channelsInfoSlice.actions;
 
 export default channelsInfoSlice.reducer;

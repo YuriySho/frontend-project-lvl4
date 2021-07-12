@@ -3,25 +3,45 @@ import {
   BrowserRouter as Router, Switch, Route, Redirect,
 } from 'react-router-dom';
 
-import { AuthContext } from './contexts';
+import { Context } from './contexts';
 import NotFoundPage from './pages/NotFoundPage.jsx';
 import LoginPage from './pages/LoginPage.jsx';
 import Chat from './pages/ChatPage.jsx';
+import Navbar from './components/Navbar.jsx';
 
-export default () => {
+export default ({ socket }) => {
   const [token, setToken] = useState(JSON.parse(localStorage.getItem('user')));
+  const [isAuth, setIsAuth] = useState(!!token);
 
   useEffect(() => {
     setToken(JSON.parse(localStorage.getItem('user')));
   }, []);
 
-  const isAutheticated = !!token;
+  const logIn = (data) => {
+    localStorage.setItem('user', JSON.stringify(data));
+    setToken(JSON.parse(localStorage.getItem('user')));
+    setIsAuth(true);
+  };
+
+  const logOut = () => {
+    localStorage.removeItem('user');
+    setIsAuth(false);
+  };
+
   return (
-    <AuthContext.Provider value={{ token, isAutheticated }}>
+    <Context.Provider value={{
+      token,
+      socket,
+      logIn,
+      logOut,
+      isAuth,
+    }}
+    >
       <Router>
+        <Navbar />
         <Switch>
           <Route path="/" exact>
-            {isAutheticated ? <Chat /> : <Redirect to="/login" />}
+            {isAuth ? <Chat /> : <Redirect to="/login" />}
           </Route>
           <Route path="/login">
             <LoginPage />
@@ -31,6 +51,6 @@ export default () => {
           </Route>
         </Switch>
       </Router>
-    </AuthContext.Provider>
+    </Context.Provider>
   );
 };
