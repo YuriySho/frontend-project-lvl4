@@ -1,10 +1,13 @@
-import React from 'react';
+import React, { useContext } from 'react';
 import { useSelector, useDispatch } from 'react-redux';
 import classnames from 'classnames';
 
 import { setActiveChannel } from '../slices/channelsInfoSlice';
+import AddChannel from './modals/AddChannel.jsx';
+import { Context } from '../contexts';
 
 export default () => {
+  const { handleShow } = useContext(Context);
   const dispatch = useDispatch();
   const { channels, currentChannelId } = useSelector((state) => state.channelsInfo);
 
@@ -33,7 +36,7 @@ export default () => {
     <div className="col-2 h-100 px-0 pt-5 border-end bg-light">
       <div className="d-flex justify-content-between mb-2 px-4">
         <span>Channels</span>
-        <button className="p-0 text-primary btn btn-group-vertical" type="button">
+        <button onClick={handleShow} className="p-0 text-primary btn btn-group-vertical" type="button">
           <svg
             xmlns="http://www.w3.org/2000/svg"
             width="16"
@@ -48,6 +51,7 @@ export default () => {
         </button>
       </div>
       {renderChannels()}
+      <AddChannel />
     </div>
   );
 };

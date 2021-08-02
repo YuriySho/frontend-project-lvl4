@@ -6,7 +6,7 @@ import io from 'socket.io-client';
 
 import App from './App.jsx';
 import store from './store';
-import { addMessage } from './slices/channelsInfoSlice';
+import { addMessage, addChannel } from './slices/channelsInfoSlice';
 import 'core-js/stable/index.js';
 import 'regenerator-runtime/runtime.js';
 
@@ -20,6 +20,9 @@ const socket = io();
 
 socket.on('newMessage', (message) => {
   store.dispatch(addMessage({ message }));
+});
+socket.on('newChannel', (channel) => {
+  store.dispatch(addChannel({ channel }));
 });
 
 ReactDOM.render(

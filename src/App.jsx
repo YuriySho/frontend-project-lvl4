@@ -28,6 +28,16 @@ export default ({ socket }) => {
     setIsAuth(false);
   };
 
+  const [show, setShow] = useState(false);
+
+  const handleShow = () => {
+    setShow(true);
+  };
+
+  const handleClose = () => {
+    setShow(false);
+  };
+
   return (
     <Context.Provider value={{
       token,
@@ -35,6 +45,9 @@ export default ({ socket }) => {
       logIn,
       logOut,
       isAuth,
+      show,
+      handleShow,
+      handleClose,
     }}
     >
       <Router>
